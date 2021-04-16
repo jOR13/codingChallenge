@@ -25,10 +25,11 @@
 // • Document your code.
 // • Provide the file(s) in .zip format.
 
-const findChar = (text, ch) => {
+
+const findChar = (text, filter) => {
   let letters = "";
-  for (var i = 0; i < ch.length; i++) {
-    let letter = ch.charAt(i);
+  for (var i = 0; i < filter.length; i++) {
+    let letter = filter.charAt(i);
     for (var i2 = 0; i2 < text.length; i2++) {
       if (letter === text[i2]) {
         letters += text[i2];
@@ -36,39 +37,44 @@ const findChar = (text, ch) => {
     }
     // console.log(letters);
   }
-
-  for (var i = 0; i < ch.length; i++) {
-    text = text.replace(ch[i], "");
+  for (var i = 0; i < filter.length; i++) {
+    text = text.replace(filter[i], "");
   }
-
-  //   console.log(text);
+  //console.log(text);
   let newText = `${text.substr(0, 1)}${text.length - 2}${text.substr(
     -1
   )}${letters}`;
   return newText;
 };
 
-const readSentence = (evt) => {
+//this function is called when the user press the button
+const readSentence = () => {
+  //with this we catch the value entered by the user
   let sentence = document.getElementById("sentence").value,
+    //this are the filters exceptions to include in the input
     filter = ",%$:;",
     resp = "";
+  //with this for loop helps to find the filter values and i add an space
   for (var i = 0; i < filter.length; i++) {
     let ch = filter[i];
     sentence = sentence.replace(ch, ch + " ");
   }
 
-  let str = sentence.split(" ");
-  str.map((x) => {
-    let res = findChar(x, filter);
-    if (x.length > 1) {
-      resp += res + " ";
+  //in this funcion we separed all the phrase by spaces
+  let splitSentence = sentence.split(" ");
+  splitSentence.map((sentence) => {
+    if (sentence.length > 1) {
+      resp += findChar(sentence, filter) + " ";
     } else {
-      resp += x + " ";
+      resp += sentence + " ";
     }
   });
+  //print in console the result and render in the html page
   console.log(resp);
   document.getElementById("newSentence").innerHTML = resp;
 };
+
+//this is a first try
 
 // const readSentence = () => {
 // //   const sentence = document.getElementById("sentence").value;
